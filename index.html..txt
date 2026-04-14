@@ -7,21 +7,18 @@
 body {
     font-family: Arial;
     text-align: center;
-    background: #1e1e1e;
+    background: #111;
     color: white;
 }
 button {
     padding: 10px;
     margin: 5px;
     font-size: 16px;
-    cursor: pointer;
 }
 .card {
     border: 1px solid gray;
     padding: 10px;
     margin: 10px;
-    display: inline-block;
-    width: 200px;
 }
 </style>
 </head>
@@ -31,88 +28,81 @@ button {
 
 <h2>Деньги: <span id="money">0</span>$</h2>
 
-<button onclick="clickMoney()">Клик (заработать)</button>
+<button onclick="clickMoney()">💰 Клик</button>
 
 <h2>👤 Ларри</h2>
 <p>Уровень: <span id="level">1</span></p>
-<button onclick="upgradeCharacter()">Прокачать Ларри (100$)</button>
+<button onclick="upgradeCharacter()">Прокачать (100$)</button>
 
-<h2>🚗 Машина</h2>
 <div class="card">
-<p>Уровень: <span id="carLevel">0</span></p>
-<p>Доход: +<span id="carIncome">0</span>/сек</p>
-<button onclick="upgradeCar()">Улучшить (50$)</button>
+<h3>🚗 Машина</h3>
+<p>Уровень: <span id="car">0</span></p>
+<button onclick="buyCar()">Купить (50$)</button>
 </div>
 
-<h2>🏠 Дом</h2>
 <div class="card">
-<p>Уровень: <span id="houseLevel">0</span></p>
-<p>Доход: +<span id="houseIncome">0</span>/сек</p>
-<button onclick="upgradeHouse()">Улучшить (150$)</button>
+<h3>🏠 Дом</h3>
+<p>Уровень: <span id="house">0</span></p>
+<button onclick="buyHouse()">Купить (150$)</button>
 </div>
 
 <script>
 let money = 0;
-let clickPower = 1;
+let click = 1;
 
 let level = 1;
+let car = 0;
+let house = 0;
 
-let carLevel = 0;
-let houseLevel = 0;
+let income = 0;
 
-let passiveIncome = 0;
-
-function update() {
+function update(){
     document.getElementById("money").innerText = Math.floor(money);
     document.getElementById("level").innerText = level;
-
-    document.getElementById("carLevel").innerText = carLevel;
-    document.getElementById("houseLevel").innerText = houseLevel;
-
-    document.getElementById("carIncome").innerText = carLevel * 2;
-    document.getElementById("houseIncome").innerText = houseLevel * 5;
+    document.getElementById("car").innerText = car;
+    document.getElementById("house").innerText = house;
 }
 
-function clickMoney() {
-    money += clickPower;
+function clickMoney(){
+    money += click;
     update();
 }
 
-function upgradeCharacter() {
-    if (money >= 100) {
+function upgradeCharacter(){
+    if(money >= 100){
         money -= 100;
         level++;
-        clickPower += 1;
+        click++;
         update();
     }
 }
 
-function upgradeCar() {
-    if (money >= 50) {
+function buyCar(){
+    if(money >= 50){
         money -= 50;
-        carLevel++;
+        car++;
         updateIncome();
         update();
     }
 }
 
-function upgradeHouse() {
-    if (money >= 150) {
+function buyHouse(){
+    if(money >= 150){
         money -= 150;
-        houseLevel++;
+        house++;
         updateIncome();
         update();
     }
 }
 
-function updateIncome() {
-    passiveIncome = (carLevel * 2) + (houseLevel * 5);
+function updateIncome(){
+    income = car * 2 + house * 5;
 }
 
-setInterval(() => {
-    money += passiveIncome / 10;
+setInterval(()=>{
+    money += income / 10;
     update();
-}, 100);
+},100);
 
 update();
 </script>
